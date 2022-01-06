@@ -1,0 +1,70 @@
+name: 'Service Testing'
+description: 'Service Testing Composite Action'
+inputs:
+  projectName:
+    description: Project Name
+    required: true
+  actionsToken:
+    description: Convair Actions Token
+    required: true
+  azureClientId:
+    description: Azure Client Id
+    required: true
+  azureClientSecret:
+    description: Azure Client Secret
+    required: true
+  azureTenantId:
+    description: Azure Tenant Id
+    required: true
+  collectionPath:
+    description: Path to Postman Collection
+    required: true
+  environmentPath:
+    description: Path to Postman Environment Variables
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    # Getting all actions available from Convair Actions
+    - name: Checkout Convair Actions
+      uses: actions/checkout@v2
+      with:
+        repository: viavarejo-internal/convair-actions
+        token: ${{ inputs.actionsToken }}
+        path: ./.convair-actions
+        ref: main
+    
+    # Deploy in Sit the application to be tested
+    - name: AKS Sandbox Deploy
+      uses: ./.convair-actions/aks-sandbox-deploy
+      env:
+        SHOULD_DEPLOY_SANDBOX: "YES"
+        SANDBOX_NAMESPACE: cargas
+      with:
+        tool: kustomize
+        projectNames: ${{ inputs.projectName }}
+        azureClientId: ${{ inputs.azureClientId }}
+        azureClientSecret: ${{ inputs.azureClientSecret }}
+        azureTenantId: ${{ inputs.azureTenantId }}
+        namespaceSuffix: "-sit"
+        sandboxPath: kustomize/base
+        restrictedBranches: release/*
+        
+    # Execute Postman Service Tests
+    - name: Service Test
+      id: servicetest
+      uses: rafacto/service-testing-action@main
+      with:
+        collectionPath: ${{ inputs.collectionPath }}
+        environmentPath: ${{ inputs.environmentPath }}
+    
+    # Upload as Artifact the test html report
+    - name: Upload as Artifact the test html report
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: test-report
+        path: ${{ steps.servicetest.outputs.testReportPath }} 
+        if-no-files-found: ignore
+        retention-days: 30
