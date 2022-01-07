@@ -4,9 +4,6 @@ inputs:
   projectName:
     description: Project Name
     required: true
-  actionsToken:
-    description: Convair Actions Token
-    required: true
   azureClientId:
     description: Azure Client Id
     required: true
@@ -25,16 +22,7 @@ inputs:
 
 runs:
   using: "composite"
-  steps:
-    # Getting all actions available from Convair Actions
-    #- name: Checkout Convair Actions
-    #  uses: actions/checkout@v2
-    #  with:
-    #    repository: viavarejo-internal/convair-actions
-    #    token: ${{ inputs.actionsToken }}
-    #    path: ./.convair-actions
-    #    ref: main
-    
+  steps:    
     # Deploy in Sit the application to be tested
     - name: AKS Sandbox Deploy
       uses: ./.convair-actions/aks-sandbox-deploy
@@ -54,7 +42,7 @@ runs:
     # Execute Postman Service Tests
     - name: Service Test
       id: servicetest
-      uses: rafacto/service-testing-action@main
+      uses: rafacto/service-testing-action@feature/MFM-2714
       with:
         collectionPath: ${{ inputs.collectionPath }}
         environmentPath: ${{ inputs.environmentPath }}
