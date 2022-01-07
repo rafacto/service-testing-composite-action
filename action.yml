@@ -49,7 +49,7 @@ runs:
         azureTenantId: ${{ inputs.azureTenantId }}
         namespaceSuffix: "-sit"
         sandboxPath: kustomize/base
-        restrictedBranches: release/*
+        restrictedBranches: feature/*
         
     # Execute Postman Service Tests
     - name: Service Test
