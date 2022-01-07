@@ -27,13 +27,13 @@ runs:
   using: "composite"
   steps:
     # Getting all actions available from Convair Actions
-    - name: Checkout Convair Actions
-      uses: actions/checkout@v2
-      with:
-        repository: viavarejo-internal/convair-actions
-        token: ${{ inputs.actionsToken }}
-        path: ./.convair-actions
-        ref: main
+    #- name: Checkout Convair Actions
+    #  uses: actions/checkout@v2
+    #  with:
+    #    repository: viavarejo-internal/convair-actions
+    #    token: ${{ inputs.actionsToken }}
+    #    path: ./.convair-actions
+    #    ref: main
     
     # Deploy in Sit the application to be tested
     - name: AKS Sandbox Deploy
