@@ -4,15 +4,15 @@ inputs:
 #  projectName:
 #    description: Project Name
 #    required: true
-#  azureClientId:
-#    description: Azure Client Id
-#    required: true
-#  azureClientSecret:
-#    description: Azure Client Secret
-#    required: true
-#  azureTenantId:
-#    description: Azure Tenant Id
-#    required: true
+  azureClientId:
+    description: Azure Client Id
+    required: true
+  azureClientSecret:
+    description: Azure Client Secret
+    required: true
+  azureTenantId:
+    description: Azure Tenant Id
+    required: true
   collectionPath:
     description: Path to Postman Collection
     required: true
