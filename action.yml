@@ -39,7 +39,7 @@ runs:
     # Execute Postman Service Tests
     - name: Service Test
       id: servicetest
-      uses: rafacto/service-testing-action@feature/MFM-2714
+      uses: rafacto/service-testing-action@main
       with:
         collectionPath: ${{ inputs.collectionPath }}
         environmentPath: ${{ inputs.environmentPath }}
