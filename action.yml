@@ -1,18 +1,18 @@
 name: 'Service Testing'
 description: 'Service Testing Composite Action'
 inputs:
-  projectName:
-    description: Project Name
-    required: true
-  azureClientId:
-    description: Azure Client Id
-    required: true
-  azureClientSecret:
-    description: Azure Client Secret
-    required: true
-  azureTenantId:
-    description: Azure Tenant Id
-    required: true
+#  projectName:
+#    description: Project Name
+#    required: true
+#  azureClientId:
+#    description: Azure Client Id
+#    required: true
+#  azureClientSecret:
+#    description: Azure Client Secret
+#    required: true
+#  azureTenantId:
+#    description: Azure Tenant Id
+#    required: true
   collectionPath:
     description: Path to Postman Collection
     required: true
@@ -28,13 +28,13 @@ runs:
       uses: ./.convair-actions/aks-sandbox-deploy
       env:
         SHOULD_DEPLOY_SANDBOX: "YES"
-        SANDBOX_NAMESPACE: cargas
+        SANDBOX_NAMESPACE: ${{ env.NAMESPACE_PREFIX }}
       with:
         tool: kustomize
-        projectNames: ${{ inputs.projectName }}
-        azureClientId: ${{ inputs.azureClientId }}
-        azureClientSecret: ${{ inputs.azureClientSecret }}
-        azureTenantId: ${{ inputs.azureTenantId }}
+        projectNames: ${{ env.PROJECT_NAME }}
+        azureClientId: ${{ secrets.AZURE_CLIENT_ID }}
+        azureClientSecret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        azureTenantId: ${{ secrets.AZURE_TENANT_ID }}
         namespaceSuffix: "-sit"
         sandboxPath: kustomize/base
         restrictedBranches: feature/*
