@@ -32,9 +32,9 @@ runs:
       with:
         tool: kustomize
         projectNames: ${{ env.PROJECT_NAME }}
-        azureClientId: ${{ secrets.AZURE_CLIENT_ID }}
-        azureClientSecret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        azureTenantId: ${{ secrets.AZURE_TENANT_ID }}
+        azureClientId: ${{ inputs.azureClientId }}
+        azureClientSecret: ${{ inputs.azureClientSecret }}
+        azureTenantId: ${{ inputs.azureTenantId }}
         namespaceSuffix: "-sit"
         sandboxPath: kustomize/base
         restrictedBranches: feature/*
